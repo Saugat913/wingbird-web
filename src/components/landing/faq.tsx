@@ -1,2 +1,39 @@
-const faqs=[{q:"How do patches work without app store reviews?",a:"Wingbird extracts libapp.so from your release APK and computes a bsdiff against the archived base build. Your Flutter app calls wingbird.sync() at startup, downloads the patch (~100–300 KB), and applies the diff in-process. Only the compiled Dart binary is updated — no native code changes, so no store review is triggered."},{q:"Is it really free? What's the catch?",a:"No catch. The CLI and server are Apache-2.0 open-source and self-hostable for free, forever. The managed cloud service is free during beta. A Pro tier is planned alongside iOS support — self-hosting will always remain free."},{q:"Which platforms and architectures are supported?",a:"Android (arm64-v8a, armeabi-v7a, x86_64) is fully supported today. Wingbird auto-detects the correct ABI from your APK. iOS support is in progress and will ship as part of the Pro tier."}];
-export default function FAQ(){return <section id="faq" className="section"><div className="wrap"><div data-reveal className="mb-14"><span className="eyebrow">FAQ</span><h2 className="display">Common questions.</h2></div><div className="flex flex-col divide-y divide-zinc-200 border-t border-b border-zinc-200">{faqs.map(f=><details key={f.q} data-reveal className="group transition-colors"><summary className="flex cursor-pointer items-center justify-between gap-6 py-8 select-none"><span className="text-lg font-bold tracking-tight text-zinc-900 sm:text-xl">{f.q}</span><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 text-zinc-500 transition-all duration-200 group-open:rotate-45 group-open:border-zinc-900 group-open:bg-zinc-900 group-open:text-white"><svg className="h-3.5 w-3.5" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 1v10M1 6h10"/></svg></span></summary><p className="pb-8 text-base leading-relaxed text-zinc-600 sm:text-lg max-w-4xl">{f.a}</p></details>)}</div></div></section>}
+const faqs = [
+  {
+    q: "How do patches work without app store reviews?",
+    a: "Wingbird extracts libapp.so from your release APK and computes a bsdiff against the archived base build. Your Flutter app calls wingbird.sync() at startup, downloads the patch (~100–300 KB), and applies the diff in-process. Only the compiled Dart binary is updated — no native code changes, so no store review is triggered.",
+  },
+  {
+    q: "Is it really free? What's the catch?",
+    a: "No catch. The CLI and server are Apache-2.0 open-source and self-hostable for free, forever. The managed cloud service is free during beta. A Pro tier is planned alongside iOS support — self-hosting will always remain free.",
+  },
+  {
+    q: "Which platforms and architectures are supported?",
+    a: "Android (arm64-v8a, armeabi-v7a, x86_64) is fully supported today. Wingbird auto-detects the correct ABI from your APK. iOS support is in progress and will ship as part of the Pro tier.",
+  },
+];
+export default function FAQ() {
+  return (
+    <section id="faq" className="section">
+      <div className="wrap">
+        <div data-reveal className="mb-14">
+          <span className="eyebrow">FAQ</span>
+                <h2 className="display">Common questions.</h2>
+            </div>
+            <div className="flex flex-col divide-y border-t border-b border-zinc-200">
+                {faqs.map(f=><details key={f.q} data-reveal className="group transition-colors">
+                    <summary className="flex cursor-pointer items-center justify-between gap-6 py-8 select-none">
+                        <span className="text-lg font-bold tracking-tight text-zinc-900 sm:text-xl">{f.q}</span>
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all duration-200 group-open:rotate-45 group-open:border-zinc-900 group-open:bg-zinc-900 group-open:text-white">
+                            <svg className="h-3.5 w-3.5" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                                <path d="M6 1v10M1 6h10"/>
+                            </svg>
+                        </span>
+                    </summary>
+                    <p className="pb-8 text-base leading-relaxed text-zinc-600 sm:text-lg max-w-4xl">{f.a}</p>
+                </details>)}
+            </div>
+        </div>
+    </section>
+  );
+}

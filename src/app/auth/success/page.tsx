@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Logo from "@/src/ui/components/logo";
-import { authClient } from "@/src/ui/lib/auth-client";
-import { CopyIcon } from "@/src/ui/apps/landing/components/header";
+import { authClient } from "@/src/lib/auth-client";
+import Logo from "@/src/components/logo";
+import { CopyIcon } from "@/src/components/landing/icons";
+
 
 export default function AuthSuccessPage() {
   const params = useSearchParams();

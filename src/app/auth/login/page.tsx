@@ -1,8 +1,9 @@
 "use client";
 
+import Logo from "@/src/components/logo";
+import { authClient } from "@/src/lib/auth-client";
 import { useSearchParams } from "next/navigation";
-import Logo from "@/src/ui/components/logo";
-import { authClient } from "@/src/ui/lib/auth-client";
+
 
 export default function LoginPage() {
   const params = useSearchParams();

@@ -1,11 +1,12 @@
-import Header from "./components/header";
-import Hero from "./components/hero";
-import HowItWorks from "./components/setup";
-import Download from "./components/download";
-import Pricing from "./components/pricing";
-import FAQ from "./components/faq";
-import CTA from "./components/cta";
-import Footer from "./components/footer";
+import CTA from "./cta";
+import Download from "./download";
+import FAQ from "./faq";
+import Footer from "./footer";
+import Header from "./header";
+import Hero from "./hero";
+import Pricing from "./pricing";
+import HowItWorks from "./setup";
+
 
 export default function Home() {
   return (
