@@ -1,7 +1,6 @@
 import Header from "./components/header";
 import Hero from "./components/hero";
 import HowItWorks from "./components/setup";
-import HowToUse from "./components/how-to-use";
 import Download from "./components/download";
 import Pricing from "./components/pricing";
 import FAQ from "./components/faq";
@@ -16,7 +15,6 @@ export default function Home() {
         <Hero />
         <HowItWorks />
         <Download />
-        <HowToUse />
         <Pricing />
         <FAQ />
         <CTA />
