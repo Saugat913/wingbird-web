@@ -7,19 +7,19 @@ const platforms = [
   {
     name: "macOS",
     arch: "Apple Silicon · Intel",
-    icon: <AppleIcon />,
+    icon: <AppleIcon className="h-9 w-9" />,
     cmd: "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/Saugat913/wingbird/releases/latest/download/wingbird-cli-installer.sh | sh",
   },
   {
     name: "Linux",
     arch: "x86_64 · aarch64",
-    icon: <LinuxIcon />,
+    icon: <LinuxIcon className="h-9 w-9" />,
     cmd: "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/Saugat913/wingbird/releases/latest/download/wingbird-cli-installer.sh | sh",
   },
   {
     name: "Windows",
     arch: "x86_64",
-    icon: <WindowsIcon />,
+    icon: <WindowsIcon className="h-9 w-9" />,
     cmd: 'powershell -ExecutionPolicy Bypass -c "irm https://github.com/Saugat913/wingbird/releases/latest/download/wingbird-cli-installer.ps1 | iex"',
   },
 ];
@@ -60,10 +60,10 @@ export default function Download() {
           {platforms.map((p) => (
             <div
               key={p.name}
-              className="grid grid-cols-1 items-center gap-5 py-7 md:grid-cols-[200px_1fr]"
+              className="grid grid-cols-1 items-center gap-8 py-9 md:grid-cols-[220px_1fr] md:gap-10"
             >
-              <div className="flex items-center gap-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50">
+              <div className="flex items-center gap-5">
+                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50">
                   {p.icon}
                 </span>
                 <div>
@@ -78,7 +78,7 @@ export default function Download() {
 
               <button
                 onClick={() => copy(p.cmd)}
-                className="term flex w-full cursor-pointer items-center justify-between gap-6 px-6 py-4 text-left transition-colors hover:border-zinc-600 md:px-7 md:py-5"
+                className="term flex min-h-16 w-full cursor-pointer items-center justify-between gap-8 px-6 py-4 text-left transition-colors hover:border-zinc-600 md:min-h-20 md:px-7 md:py-5"
               >
                 <code className="t-cyan no-scrollbar overflow-x-auto whitespace-nowrap text-[12px] leading-relaxed">
                   {p.cmd}
