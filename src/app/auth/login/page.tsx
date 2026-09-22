@@ -1,11 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Logo from "@/src/components/logo";
 import { authClient } from "@/src/lib/auth-client";
-import { useSearchParams } from "next/navigation";
 
-
-export default function LoginPage() {
+function LoginContent() {
   const params = useSearchParams();
   const callbackUrl = params.get("callbackUrl") ?? undefined;
 
@@ -21,7 +22,7 @@ export default function LoginPage() {
           <Logo className="h-40 w-40 invert" />
           <h2 className="text-3xl font-semibold tracking-tight text-white">Welcome back,</h2>
           <p className="text-lg text-neutral-400">Nice to see you again — log in to keep patching your Flutter apps in seconds.</p>
-          <a href="/" className="btn btn-ghost-dark">← Back to homepage</a>
+          <Link href="/" className="btn btn-ghost-dark">← Back to homepage</Link>
         </div>
       </aside>
       <section className="flex items-center justify-center px-6 py-12 md:px-12">
@@ -37,5 +38,13 @@ export default function LoginPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginContent />
+    </Suspense>
   );
 }

@@ -2,12 +2,37 @@
 
 import { useState } from "react";
 
-const steps = [
+type CodeLine =
+  | { t: "fg"; c: string }
+  | { t: "mixed"; c: [string, string][] };
+
+type CodeStep = {
+  n: string;
+  title: string;
+  desc: string;
+  type: "code";
+  status: string;
+  files: { name: string; lines: CodeLine[] }[];
+};
+
+type TerminalStep = {
+  n: string;
+  title: string;
+  desc: string;
+  type: "terminal";
+  cmd: string;
+  out: [string, string][];
+};
+
+type Step = CodeStep | TerminalStep;
+
+const steps: Step[] = [
   {
     n: "01",
     title: "Add the SDK",
     desc: "Add Wingbird as a dependency and initialize it before runApp. On every cold start, the SDK checks for a compatible patch and applies it before your app renders.",
-    type: "code" as const,
+    type: "code",
+    status: "✔ Setup complete",
     files: [
       {
         name: "pubspec.yaml",
@@ -77,7 +102,7 @@ const steps = [
     n: "02",
     title: "Publish a release",
     desc: "Authenticate once, then let the CLI build your Android release and register it as the base release for future patches.",
-    type: "terminal" as const,
+    type: "terminal",
     cmd: "wingbird release android production",
     out: [
       ["t-cyan", "[➜] Building release APK..."],
@@ -88,7 +113,7 @@ const steps = [
     n: "03",
     title: "Ship a patch",
     desc: "Make your fix, then generate a binary diff against the published release. Wingbird uploads the patch for your app to pick up.",
-    type: "terminal" as const,
+    type: "terminal",
     cmd: "wingbird patch android production",
     out: [
       ["t-cyan", "[➜] Diffing arm64-v8a..."],
@@ -108,7 +133,7 @@ function CodePanel({
   files,
   status,
 }: {
-  files: (typeof steps)[0]["files"];
+  files: CodeStep["files"];
   status: string;
 }) {
   const [active, setActive] = useState(files[0].name);

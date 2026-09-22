@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { authClient } from "@/src/lib/auth-client";
 import Logo from "@/src/components/logo";
 import { CopyIcon } from "@/src/components/landing/icons";
 
-
-export default function AuthSuccessPage() {
+function AuthSuccessContent() {
   const params = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
@@ -90,9 +90,9 @@ export default function AuthSuccessPage() {
           </div>
         )}
         {status === "error" && needsLogin && (
-          <a href="/auth/login" className="btn btn-primary">
+          <Link href="/auth/login" className="btn btn-primary">
             Sign in to continue
-          </a>
+          </Link>
         )}
         {token && status !== "loading" && (
           <div className="space-y-3">
@@ -116,5 +116,13 @@ export default function AuthSuccessPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function AuthSuccessPage() {
+  return (
+    <Suspense fallback={null}>
+      <AuthSuccessContent />
+    </Suspense>
   );
 }
