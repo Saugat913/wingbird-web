@@ -2,7 +2,17 @@
 
 import { useEffect, useState } from "react";
 
-type TerminalLine = [className: string, text: string];
+type TerminalTone = "white" | "cyan" | "green" | "amber" | "red" | "gray";
+type TerminalLine = [tone: TerminalTone, text: string];
+
+const toneClasses: Record<TerminalTone, string> = {
+  white: "text-white",
+  cyan: "text-cyan-400",
+  green: "text-emerald-400",
+  amber: "text-amber-400",
+  red: "text-red-400",
+  gray: "text-neutral-500",
+};
 
 const logo = [
   " __          ___             _     _         _",
@@ -26,30 +36,30 @@ export default function CliWindow() {
   const lines: TerminalLine[] =
     step === 1
       ? [
-          ["t-cyan-400", "[➜] No session token passed, opening browser for login..."],
-          ["t-cyan-400", "[➜] Click here to login https://wingbird.dev/auth/login?callbackUrl=..."],
-          ["t-emerald-400", "[✔] Received the token"],
-          ["t-emerald-400 font-bold", "[✔] Login successful. Logged in as Saugat"],
+          ["cyan", "[➜] No session token passed, opening browser for login..."],
+          ["cyan", "[➜] Click here to login https://wingbird.dev/auth/login?callbackUrl=..."],
+          ["green", "[✔] Received the token"],
+          ["green", "[✔] Login successful. Logged in as Saugat"],
         ]
       : step === 2
         ? [
-            ["t-cyan-400", "[➜] Building release APK..."],
-            ["t-emerald-400", "[✔] APK built successfully"],
-            ["t-cyan-400", "[➜] Output build/app/outputs/flutter-apk/app-release.apk"],
-            ["t-cyan-400", "[➜] APK size: 18.4 MB"],
-            ["t-cyan-400", "[➜] Computing file hash..."],
-            ["t-amber-400", "[⧗] Requesting upload URL..."],
-            ["t-emerald-400", "[✔] Upload complete (id: upl_48a92f1)"],
-            ["t-amber-400", "[⧗] Creating release record on server..."],
-            ["t-emerald-400 font-bold", "[✔] Release created successfully (ID: rel_99a82b)"],
+            ["cyan", "[➜] Building release APK..."],
+            ["green", "[✔] APK built successfully"],
+            ["cyan", "[➜] Output build/app/outputs/flutter-apk/app-release.apk"],
+            ["cyan", "[➜] APK size: 18.4 MB"],
+            ["cyan", "[➜] Computing file hash..."],
+            ["amber", "[⧗] Requesting upload URL..."],
+            ["green", "[✔] Upload complete (id: upl_48a92f1)"],
+            ["amber", "[⧗] Creating release record on server..."],
+            ["green", "[✔] Release created successfully (ID: rel_99a82b)"],
           ]
         : [
-            ["t-cyan-400", "[➜] Building release APK..."],
-            ["t-amber-400", "[⧗] Downloading base release APK..."],
-            ["t-cyan-400", "[➜] Processing architecture: arm64-v8a"],
-            ["t-cyan-400", "[➜] Generating patch diff for arm64-v8a..."],
-            ["t-amber-400", "[⧗] Creating patch records..."],
-            ["t-emerald-400 font-bold", "[✔] Successfully created 1 patch artifact(s) (1 architecture(s))!"],
+            ["cyan", "[➜] Building release APK..."],
+            ["amber", "[⧗] Downloading base release APK..."],
+            ["cyan", "[➜] Processing architecture: arm64-v8a"],
+            ["cyan", "[➜] Generating patch diff for arm64-v8a..."],
+            ["amber", "[⧗] Creating patch records..."],
+            ["green", "[✔] Successfully created 1 patch artifact(s) (1 architecture(s))!"],
           ];
 
   const commands = [
@@ -86,8 +96,8 @@ export default function CliWindow() {
           )}
 
           <div className="space-y-1.5 pl-1 pt-2">
-            {lines.map(([cls, t]) => (
-              <div key={t} className={cls}>
+            {lines.map(([tone, t]) => (
+              <div key={t} className={toneClasses[tone]}>
                 <span className="font-bold">{t.slice(0, 3)}</span>
                 {t.slice(3)}
               </div>
