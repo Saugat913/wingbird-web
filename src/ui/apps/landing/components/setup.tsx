@@ -13,20 +13,61 @@ const steps = [
         name: "pubspec.yaml",
         lines: [
           { t: "fg", c: "dependencies:" },
-          { t: "fg", c: "  flutter:" },
-          { t: "dim", c: "    sdk: flutter" },
-          { t: "mixed", c: [["fg", "  wingbird: "], ["str", "^0.4.2"]] },
+          {
+            t: "fg",
+            c: "  wingbird_sdk:",
+          },
+          {
+            t: "mixed",
+            c: [["fg", "    git:"]],
+          },
+          {
+            t: "mixed",
+            c: [
+              ["fg", "      url: "],
+              ["str", "https://github.com/Saugat913/wingbird-sdk.git"],
+            ],
+          },
         ],
       },
       {
         name: "main.dart",
         lines: [
-          { t: "mixed", c: [["kw", "import"], ["str", " 'package:wingbird/wingbird.dart'"], ["fg", ";"]] },
+          {
+            t: "mixed",
+            c: [
+              ["kw", "import"],
+              ["str", " 'package:wingbird_sdk/wingbird_sdk.dart'"],
+              ["fg", ";"],
+            ],
+          },
           { t: "fg", c: "" },
-          { t: "mixed", c: [["kw", "Future"], ["fg", "<void> main() "], ["kw", "async"], ["fg", " {"]] },
+          {
+            t: "mixed",
+            c: [
+              ["kw", "Future"],
+              ["fg", "<void> main() "],
+              ["kw", "async"],
+              ["fg", " {"],
+            ],
+          },
           { t: "fg", c: "  WidgetsFlutterBinding.ensureInitialized();" },
-          { t: "mixed", c: [["fg", "  "], ["kw", "await"], ["fg", " Wingbird.init(channel: Channel.prod);"]] },
-          { t: "mixed", c: [["fg", "  runApp("], ["kw", "const"], ["fg", " MyApp());"]] },
+          {
+            t: "mixed",
+            c: [
+              ["fg", "  "],
+              ["kw", "await"],
+              ["fg", " Wingbird.init(channel: Channel.prod);"],
+            ],
+          },
+          {
+            t: "mixed",
+            c: [
+              ["fg", "  runApp("],
+              ["kw", "const"],
+              ["fg", " MyApp());"],
+            ],
+          },
           { t: "fg", c: "}" },
         ],
       },
@@ -57,35 +98,59 @@ const steps = [
   },
 ];
 
-function CodePanel({ files }: { files: typeof steps[0]["files"] }) {
+function lineColor(cls: string) {
+  if (cls === "kw") return "t-cyan";
+  if (cls === "str") return "t-emerald";
+  if (cls === "dim") return "t-dim";
+  return "t-cmd";
+}
+
+function CodePanel({
+  files,
+  status,
+}: {
+  files: (typeof steps)[0]["files"];
+  status: string;
+}) {
   const [active, setActive] = useState(files[0].name);
   const file = files.find((f) => f.name === active) ?? files[0];
 
   return (
-    <div className="code-panel">
-      <div className="file-tabs">
+    <div className="term p-0">
+      <div className="flex gap-1 border-b border-white/10 px-3 pt-3">
         {files.map((f) => (
           <button
             key={f.name}
-            className={`file-tab${f.name === active ? " active" : ""}`}
             onClick={() => setActive(f.name)}
+            className={`rounded-t px-3 py-2 font-mono text-[11px] transition-colors ${
+              f.name === active
+                ? "bg-white/5 text-zinc-200"
+                : "text-zinc-500 hover:text-zinc-300"
+            }`}
           >
             {f.name}
           </button>
         ))}
       </div>
-      <div className="code-body">
-        <div className="code-lines active">
+      <div className="px-4 py-4">
+        <div className="flex flex-col gap-1 font-mono text-xs leading-relaxed whitespace-pre">
           {file.lines.map((line, i) => (
             <span key={i}>
-              {line.t === "mixed"
-                ? line.c.map(([cls, text], j) => (
-                    <span key={j} className={`cl-${cls}`}>{text}</span>
-                  ))
-                : <span className={`cl-${line.t}`}>{line.c || "\u00A0"}</span>}
+              {line.t === "mixed" ? (
+                line.c.map(([cls, text], j) => (
+                  <span key={j} className={lineColor(cls)}>
+                    {text}
+                  </span>
+                ))
+              ) : (
+                <span className={lineColor(line.t)}>{line.c || "\u00A0"}</span>
+              )}
             </span>
           ))}
         </div>
+      </div>
+      <div className="border-t border-white/10 px-4 py-3 font-mono text-xs">
+        <span className="t-emerald">{status}</span>
       </div>
     </div>
   );
@@ -95,57 +160,69 @@ export default function HowItWorks() {
   return (
     <section id="how-it-works" className="section section--surface">
       <div className="wrap">
-        <div className="mb-16 flex flex-wrap items-end justify-between gap-6" data-reveal>
+        <div
+          className="mb-16 flex flex-wrap items-end justify-between gap-6"
+          data-reveal
+        >
           <div>
             <span className="eyebrow">How it works</span>
             <h2 className="display">
-              From Flutter project<br />to live patch.
+              From Flutter project
+              <br />
+              to live patch.
             </h2>
           </div>
           <p className="lead" style={{ maxWidth: "38ch", marginBottom: 0 }}>
-            Integrate once, publish a release, then ship binary patches without waiting for a full app-store release.
+            Integrate once, publish a release, then ship binary patches without
+            waiting for a full app-store release.
           </p>
         </div>
 
-        <div className="grid items-stretch gap-5 md:grid-cols-3">
+        <div className="grid gap-5">
           {steps.map((step) => (
-            <article key={step.n} data-reveal className="card flex h-full flex-col p-7 md:p-8">
+            <article
+              key={step.n}
+              data-reveal
+              className="card flex flex-col gap-6 p-7 md:p-8"
+            >
               <div className="flex items-center gap-4">
                 <span className="step-num">{step.n}</span>
-                <h3 className="text-xl font-bold tracking-tight text-zinc-900">{step.title}</h3>
+                <h3 className="text-xl font-bold tracking-tight text-zinc-900">
+                  {step.title}
+                </h3>
               </div>
 
-              <p className="mt-6 text-sm leading-relaxed text-zinc-500">{step.desc}</p>
+              <p className="text-sm leading-relaxed text-zinc-500">
+                {step.desc}
+              </p>
 
-              <div className="mt-8 flex flex-1 flex-col justify-end">
-                {step.type === "code" ? (
-                  <div className="flex flex-col gap-4">
-                    <CodePanel files={step.files} />
-                    <div className="code-status">
-                      <span className="t-emerald">{step.status}</span>
+              {step.type === "code" ? (
+                <CodePanel files={step.files} status={step.status} />
+              ) : (
+                <div className="term p-5">
+                  <div
+                    className="term-bar"
+                    style={{ padding: 0, marginBottom: 12 }}
+                  >
+                    <span className="term-dot bg-zinc-700" />
+                    <span className="term-dot bg-zinc-700" />
+                    <span className="term-dot bg-zinc-700" />
+                  </div>
+                  <div className="px-1">
+                    <div className="mb-3 flex gap-1">
+                      <span className="t-dim">$</span>
+                      <span className="t-cmd break-all">{step.cmd}</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      {step.out.map(([cls, text]) => (
+                        <span key={text} className={cls}>
+                          {text}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                ) : (
-                  <div className="term p-5">
-                    <div className="term-bar" style={{ padding: 0, marginBottom: 12 }}>
-                      <span className="term-dot bg-zinc-700" />
-                      <span className="term-dot bg-zinc-700" />
-                      <span className="term-dot bg-zinc-700" />
-                    </div>
-                    <div className="px-1">
-                      <div className="mb-3 flex gap-1">
-                        <span className="t-dim">$</span>
-                        <span className="t-cmd break-all">{step.cmd}</span>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        {step.out.map(([cls, text]) => (
-                          <span key={text} className={cls}>{text}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </article>
           ))}
         </div>
