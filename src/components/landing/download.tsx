@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AppleIcon, LinuxIcon, WindowsIcon, CopyIcon } from "./header";
+import { AppleIcon, LinuxIcon, WindowsIcon, CopyIcon } from "./icons";
 
 const platforms = [
   {

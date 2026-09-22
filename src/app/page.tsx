@@ -1,4 +1,4 @@
-import Home from "@/src/ui/apps/landing/page";
+import Home from "../components/landing/page";
 
 export default function Page() {
   return <Home />;

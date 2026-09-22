@@ -72,7 +72,6 @@ const steps = [
         ],
       },
     ],
-    status: "[✔] Patch applied automatically on next launch",
   },
   {
     n: "02",
