@@ -13,7 +13,7 @@ const logo = [
   "     \\/  \\/   |_|_| |_|\\__, |_.__/|_|_|  \\__,_|",
   "                        __/ |",
   "                       |___|",
-].join("\\n");
+].join("\n");
 
 export default function CliWindow() {
   const [step, setStep] = useState(1);
