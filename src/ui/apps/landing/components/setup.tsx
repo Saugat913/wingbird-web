@@ -57,16 +57,12 @@ const steps = [
   },
 ];
 
-type CodeLine =
-  | { t: "fg" | "dim"; c: string }
-  | { t: "mixed"; c: Array<[string, string]> };
-
 function CodePanel({ files }: { files: typeof steps[0]["files"] }) {
   const [active, setActive] = useState(files[0].name);
   const file = files.find((f) => f.name === active) ?? files[0];
 
   return (
-    <div className="code-panel mt-auto overflow-hidden rounded">
+    <div className="code-panel">
       <div className="file-tabs">
         {files.map((f) => (
           <button
@@ -111,59 +107,47 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid items-stretch gap-5 md:grid-cols-3">
           {steps.map((step) => (
-            <article key={step.n} data-reveal className="card flex flex-col gap-6 p-7 md:p-8">
+            <article key={step.n} data-reveal className="card flex h-full flex-col p-7 md:p-8">
               <div className="flex items-center gap-4">
                 <span className="step-num">{step.n}</span>
                 <h3 className="text-xl font-bold tracking-tight text-zinc-900">{step.title}</h3>
               </div>
-              <p className="text-sm leading-relaxed text-zinc-500">{step.desc}</p>
 
-              {step.type === "code" ? (
-                <>
-                  <CodePanel files={step.files} />
-                  <div className="code-status">
-                    <span className="t-emerald">{step.status}</span>
-                  </div>
-                </>
-              ) : (
-                <div className="term mt-auto p-5">
-                  <div className="term-bar" style={{ padding: 0, marginBottom: 10 }}>
-                    <span className="term-dot bg-zinc-700" />
-                    <span className="term-dot bg-zinc-700" />
-                    <span className="term-dot bg-zinc-700" />
-                  </div>
-                  <div className="px-1">
-                    <div className="mb-3 flex gap-1">
-                      <span className="t-dim">$</span>
-                      <span className="t-cmd break-all">{step.cmd}</span>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      {step.out.map(([cls, text]) => (
-                        <span key={text} className={cls}>{text}</span>
-                      ))}
+              <p className="mt-6 text-sm leading-relaxed text-zinc-500">{step.desc}</p>
+
+              <div className="mt-8 flex flex-1 flex-col justify-end">
+                {step.type === "code" ? (
+                  <div className="flex flex-col gap-4">
+                    <CodePanel files={step.files} />
+                    <div className="code-status">
+                      <span className="t-emerald">{step.status}</span>
                     </div>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="term p-5">
+                    <div className="term-bar" style={{ padding: 0, marginBottom: 12 }}>
+                      <span className="term-dot bg-zinc-700" />
+                      <span className="term-dot bg-zinc-700" />
+                      <span className="term-dot bg-zinc-700" />
+                    </div>
+                    <div className="px-1">
+                      <div className="mb-3 flex gap-1">
+                        <span className="t-dim">$</span>
+                        <span className="t-cmd break-all">{step.cmd}</span>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        {step.out.map(([cls, text]) => (
+                          <span key={text} className={cls}>{text}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </article>
           ))}
-        </div>
-
-        <div className="mt-8 grid gap-4 md:grid-cols-2" data-reveal>
-          <div className="card border-cyan-100 bg-white p-6">
-            <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">Developer flow</p>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-500">
-              Add the SDK once. Authenticate the CLI once. From there, release and patch commands handle the build, diff, and upload flow.
-            </p>
-          </div>
-          <div className="card border-emerald-100 bg-white p-6">
-            <p className="font-mono text-xs font-semibold uppercase tracking-widest text-emerald-600">What users get</p>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-500">
-              On startup, the SDK checks for a compatible patch, downloads it when available, and applies the hot-fix to the app's Flutter binary.
-            </p>
-          </div>
         </div>
       </div>
     </section>
